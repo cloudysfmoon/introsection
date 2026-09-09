@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jose A. Arroyo — Cloud &amp; Network Engineer</title>
+<meta name="description" content="Jose A. Arroyo — Cloud &amp; Network Engineering student, technical support professional, and aspiring network engineer.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0a0e16;
+    --panel: #101522;
+    --panel-2: #0d111c;
+    --border: #232a3d;
+    --border-soft: #1a2032;
+    --text: #dbe1ec;
+    --text-dim: #8891a4;
+    --text-faint: #5b6478;
+    --cyan: #5fd4d0;
+    --cyan-dim: #3a8f8c;
+    --amber: #e8a548;
+    --green: #6fcf97;
+    --red: #e0705f;
+    --radius: 6px;
+    --maxw: 1080px;
+    --sans: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior: auto; }
+    *{ animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+  }
+
+  body{
+    margin: 0;
+    background: var(--bg);
+    background-image:
+      radial-gradient(ellipse 900px 500px at 15% -10%, rgba(95,212,208,0.07), transparent 60%),
+      radial-gradient(ellipse 700px 500px at 100% 10%, rgba(232,165,72,0.05), transparent 60%);
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a{ color: var(--cyan); text-decoration: none; }
+  a:hover{ text-decoration: underline; text-underline-offset: 3px; }
+  a:focus-visible, button:focus-visible, .navtoggle:focus-visible{
+    outline: 2px solid var(--cyan);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  .wrap{ max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+
+  code, .mono{ font-family: var(--mono); }
+
+  .label{
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--cyan-dim);
+    margin: 0 0 8px;
+    letter-spacing: 0.02em;
+  }
+  .label::before{ content: "// "; color: var(--text-faint); }
+
+  h1, h2, h3{ font-family: var(--sans); font-weight: 600; color: var(--text); margin: 0; }
+  h2{ font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2.1rem); margin-bottom: 6px; }
+  .section-intro{ color: var(--text-dim); max-width: 62ch; margin: 0 0 36px; }
+
+  section{ padding: 88px 0; border-bottom: 1px solid var(--border-soft); }
+  section:last-of-type{ border-bottom: none; }
+
+  /* ---------- top bar ---------- */
+  .topbar{
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(10,14,22,0.88);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .topbar .wrap{
+    display: flex; align-items: center; justify-content: space-between;
+    height: 56px;
+  }
+  .brand{
+    font-family: var(--mono); font-size: 0.92rem; color: var(--text);
+    white-space: nowrap;
+  }
+  .brand .prompt{ color: var(--green); }
+  .navlinks{ display: flex; gap: 28px; list-style: none; margin: 0; padding: 0; }
+  .navlinks a{
+    color: var(--text-dim); font-size: 0.92rem; font-family: var(--mono);
+  }
+  .navlinks a:hover, .navlinks a.active{ color: var(--cyan); text-decoration: none; }
+  .navtoggle{
+    display: none; background: none; border: 1px solid var(--border); color: var(--text);
+    font-family: var(--mono); border-radius: var(--radius); padding: 6px 10px; cursor: pointer;
+  }
+
+  @media (max-width: 720px){
+    .navlinks{
+      position: absolute; top: 56px; left: 0; right: 0;
+      flex-direction: column; gap: 0;
+      background: var(--panel-2); border-bottom: 1px solid var(--border-soft);
+      max-height: 0; overflow: hidden; transition: max-height 0.25s ease;
+    }
+    .navlinks.open{ max-height: 320px; }
+    .navlinks a{ display: block; padding: 14px 24px; border-top: 1px solid var(--border-soft); }
+    .navtoggle{ display: inline-block; }
+  }
+
+  /* ---------- hero ---------- */
+  .hero{ padding: 64px 0 80px; border-bottom: 1px solid var(--border-soft); position: relative; overflow: hidden; }
+  .hero .wrap{ display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 40px; align-items: center; }
+  @media (max-width: 860px){ .hero .wrap{ grid-template-columns: 1fr; } }
+
+  .term-window{
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 20px 60px -20px rgba(0,0,0,0.6);
+  }
+  .term-bar{
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px 14px;
+    background: var(--panel-2);
+    border-bottom: 1px solid var(--border);
+    font-family: var(--mono); font-size: 0.78rem; color: var(--text-faint);
+  }
+  .term-bar .dot{ width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .term-bar .dot.r{ background: var(--red); }
+  .term-bar .dot.y{ background: var(--amber); }
+  .term-bar .dot.g{ background: var(--green); }
+  .term-bar .dots{ display: flex; gap: 6px; margin-right: 6px; }
+  .term-body{ padding: 24px 26px 28px; font-family: var(--mono); font-size: 0.92rem; }
+  .term-body .row{ margin: 0 0 14px; color: var(--text-dim); }
+  .term-body .row .p{ color: var(--green); }
+  .term-body .row .cmd{ color: var(--text); }
+  .term-body h1{
+    font-family: var(--mono);
+    font-size: clamp(1.7rem, 1.3rem + 1.6vw, 2.3rem);
+    margin: 2px 0 4px;
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 2px solid transparent;
+  }
+  @media (prefers-reduced-motion: no-preference){
+    .term-body h1{
+      width: 0;
+      animation: typing 1.4s steps(14, end) 0.15s forwards, caret 0.75s step-end infinite;
+      border-right-color: var(--cyan);
+    }
+  }
+  @keyframes typing{ to{ width: 14.1ch; } }
+  @keyframes caret{ 50%{ border-color: transparent; } }
+
+  .term-body .role{ color: var(--text); margin: 2px 0 18px; }
+  .term-body .status-line{ display: flex; align-items: center; gap: 8px; color: var(--text-dim); margin-top: 4px; }
+  .status-dot{ width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); flex-shrink: 0; }
+
+  .hero-actions{ display: flex; gap: 12px; flex-wrap: wrap; margin-top: 22px; }
+  .btn{
+    font-family: var(--mono); font-size: 0.86rem;
+    padding: 10px 16px; border-radius: var(--radius);
+    border: 1px solid var(--border);
+    color: var(--text); background: var(--panel-2);
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+  .btn:hover{ border-color: var(--cyan); color: var(--cyan); text-decoration: none; }
+  .btn.primary{ border-color: var(--cyan-dim); color: var(--cyan); }
+  .btn.primary:hover{ border-color: var(--cyan); background: rgba(95,212,208,0.06); }
+
+  .topo{ width: 100%; height: auto; opacity: 0.9; }
+  @media (max-width: 860px){ .topo{ display: none; } }
+
+  /* ---------- about ---------- */
+  .about-grid{ display: grid; grid-template-columns: 1.4fr 1fr; gap: 48px; }
+  @media (max-width: 780px){ .about-grid{ grid-template-columns: 1fr; } }
+  .about-grid p{ color: var(--text-dim); margin: 0 0 16px; max-width: 60ch; }
+  .about-grid p strong{ color: var(--text); font-weight: 500; }
+
+  .stat-panel{
+    border: 1px solid var(--border); border-radius: var(--radius); background: var(--panel);
+    padding: 20px 22px;
+  }
+  .stat-panel .stat{
+    display: flex; justify-content: space-between; gap: 12px;
+    padding: 10px 0; border-bottom: 1px solid var(--border-soft);
+    font-family: var(--mono); font-size: 0.86rem;
+  }
+  .stat-panel .stat:last-child{ border-bottom: none; }
+  .stat-panel .stat .k{ color: var(--text-faint); }
+  .stat-panel .stat .v{ color: var(--text); text-align: right; }
+
+  /* ---------- skills / routing table ---------- */
+  .rtable{ width: 100%; border-collapse: collapse; font-size: 0.94rem; }
+  .rtable thead th{
+    text-align: left; font-family: var(--mono); font-weight: 500;
+    color: var(--text-faint); font-size: 0.78rem;
+    padding: 0 14px 10px; border-bottom: 1px solid var(--border);
+  }
+  .rtable tbody td{
+    padding: 16px 14px; border-bottom: 1px solid var(--border-soft);
+    vertical-align: top;
+  }
+  .rtable tbody tr:hover{ background: rgba(95,212,208,0.03); }
+  .rtable .domain{ color: var(--text); font-weight: 500; white-space: nowrap; }
+  .rtable .stack{ color: var(--text-dim); }
+  .rtable .status{ font-family: var(--mono); font-size: 0.78rem; white-space: nowrap; }
+  .rtable .status.core{ color: var(--green); }
+  .rtable .status.daily{ color: var(--cyan); }
+  @media (max-width: 700px){
+    .rtable thead{ display: none; }
+    .rtable, .rtable tbody, .rtable tr, .rtable td{ display: block; width: 100%; }
+    .rtable tr{ padding: 14px 0; border-bottom: 1px solid var(--border-soft); }
+    .rtable td{ border-bottom: none; padding: 3px 0; }
+    .rtable .status{ margin-top: 4px; }
+  }
+
+  /* ---------- experience / traceroute ---------- */
+  .hops{ list-style: none; margin: 0; padding: 0; }
+  .hop{
+    display: grid; grid-template-columns: 64px 1fr; gap: 20px;
+    padding: 28px 0; border-bottom: 1px solid var(--border-soft);
+  }
+  .hop:first-child{ padding-top: 0; }
+  .hop:last-child{ border-bottom: none; }
+  .hop-n{ font-family: var(--mono); color: var(--cyan-dim); font-size: 0.88rem; padding-top: 3px; }
+  .hop-n .num{ display: block; color: var(--cyan); font-size: 1.4rem; line-height: 1; margin-bottom: 4px; }
+  .hop-head{
+    display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 6px 16px;
+    margin-bottom: 6px;
+  }
+  .hop-head h3{ font-size: 1.05rem; }
+  .hop-head .duration{ font-family: var(--mono); font-size: 0.78rem; color: var(--text-faint); }
+  .hop-loc{ font-family: var(--mono); font-size: 0.8rem; color: var(--text-faint); margin: 0 0 12px; }
+  .hop ul{ margin: 0; padding-left: 18px; color: var(--text-dim); }
+  .hop li{ margin-bottom: 6px; }
+  .hop li::marker{ color: var(--cyan-dim); }
+
+  /* ---------- lab / tickets ---------- */
+  .lab-meta{
+    font-family: var(--mono); font-size: 0.82rem; color: var(--text-faint);
+    border: 1px solid var(--border-soft); border-radius: var(--radius);
+    background: var(--panel-2); padding: 14px 18px; margin-bottom: 32px;
+  }
+  .lab-meta b{ color: var(--text-dim); font-weight: 500; }
+  .tickets{
+    display: flex; flex-direction: column; gap: 16px;
+  }
+  .ticket{
+    border: 1px solid var(--border); border-radius: var(--radius); background: var(--panel);
+    padding: 22px 24px;
+  }
+  .ticket-head{ display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .ticket-id{ font-family: var(--mono); font-size: 0.78rem; color: var(--cyan); }
+  .ticket-status{
+    font-family: var(--mono); font-size: 0.7rem; color: var(--green);
+    border: 1px solid var(--green); border-radius: 20px; padding: 2px 9px;
+  }
+  .ticket h3{ font-size: 1.02rem; margin-bottom: 16px; max-width: 52ch; }
+  .ticket-detail{ margin: 0 0 16px; display: grid; gap: 12px; }
+  .ticket-detail .field{ display: grid; grid-template-columns: 64px 1fr; gap: 16px; }
+  @media (max-width: 560px){ .ticket-detail .field{ grid-template-columns: 1fr; gap: 4px; } }
+  .ticket-detail dt{
+    font-family: var(--mono); font-size: 0.76rem; color: var(--text-faint);
+    padding-top: 2px;
+  }
+  .ticket-detail dd{ margin: 0; color: var(--text-dim); font-size: 0.9rem; max-width: 58ch; }
+  .skill-tags{ display: flex; flex-wrap: wrap; gap: 8px; }
+  .skill-tag{
+    font-family: var(--mono); font-size: 0.72rem; color: var(--cyan-dim);
+    border: 1px solid var(--border-soft); border-radius: 20px; padding: 3px 10px;
+  }
+
+  /* ---------- certifications ---------- */
+  .cert-cols{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  @media (max-width: 860px){ .cert-cols{ grid-template-columns: 1fr; gap: 36px; } }
+  .cert-col h3{ font-size: 0.82rem; font-family: var(--mono); color: var(--text-faint); font-weight: 500; margin-bottom: 16px; }
+  .badge-list{ list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+  .badge{
+    display: flex; align-items: center; gap: 10px;
+    font-size: 0.9rem; padding: 10px 12px;
+    border: 1px solid var(--border-soft); border-radius: var(--radius); background: var(--panel);
+  }
+  .badge .mark{ font-family: var(--mono); font-size: 0.85rem; width: 16px; flex-shrink: 0; }
+  .badge.earned .mark{ color: var(--green); }
+  .badge.progress .mark{ color: var(--amber); }
+  .badge.planned{ opacity: 0.65; }
+  .badge.planned .mark{ color: var(--text-faint); }
+  .badge .name{ color: var(--text); }
+  .badge .sub{ display: block; font-size: 0.76rem; color: var(--text-faint); margin-top: 1px; }
+
+  /* ---------- contact ---------- */
+  .contact-block{
+    border: 1px solid var(--border); border-radius: var(--radius);
+    background: var(--panel); padding: 32px;
+    font-family: var(--mono); font-size: 0.94rem;
+  }
+  .contact-block .line{ padding: 9px 0; color: var(--text-dim); border-bottom: 1px solid var(--border-soft); display: flex; gap: 14px; flex-wrap: wrap; }
+  .contact-block .line:last-child{ border-bottom: none; }
+  .contact-block .k{ color: var(--text-faint); width: 92px; flex-shrink: 0; }
+  .contact-block .v a{ color: var(--cyan); }
+
+  footer{ padding: 32px 0 48px; }
+  footer .wrap{
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
+    font-family: var(--mono); font-size: 0.76rem; color: var(--text-faint);
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <div class="brand"><span class="prompt">jose@resume</span>:~$</div>
+    <button class="navtoggle" id="navToggle" aria-expanded="false" aria-controls="navlinks">menu</button>
+    <ul class="navlinks" id="navlinks">
+      <li><a href="#about">about</a></li>
+      <li><a href="#skills">skills</a></li>
+      <li><a href="#experience">experience</a></li>
+      <li><a href="#lab">lab</a></li>
+      <li><a href="#certs">certs</a></li>
+      <li><a href="#contact">contact</a></li>
+    </ul>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="term-window">
+      <div class="term-bar">
+        <span class="dots"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></span>
+        session — jose@resume:~
+      </div>
+      <div class="term-body">
+        <p class="row"><span class="p">$</span> <span class="cmd">whoami</span></p>
+        <h1>Jose A. Arroyo</h1>
+        <p class="role">Cloud &amp; Network Engineer <span class="mono" style="color:var(--text-faint)">(B.S. in progress — WGU)</span></p>
+        <p class="row" style="margin-top:22px;"><span class="p">$</span> <span class="cmd">cat status.txt</span></p>
+        <p class="status-line"><span class="status-dot"></span> open to network engineering &amp; IT infrastructure roles</p>
+      </div>
+    </div>
+    <div class="hero-side">
+      <svg class="topo" viewBox="0 0 400 320" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <line x1="60" y1="60" x2="190" y2="140" stroke="#233047" stroke-width="1.5"/>
+        <line x1="190" y1="140" x2="330" y2="70" stroke="#233047" stroke-width="1.5"/>
+        <line x1="190" y1="140" x2="120" y2="240" stroke="#233047" stroke-width="1.5"/>
+        <line x1="190" y1="140" x2="300" y2="230" stroke="#233047" stroke-width="1.5"/>
+        <line x1="300" y1="230" x2="340" y2="290" stroke="#233047" stroke-width="1.5"/>
+        <line x1="120" y1="240" x2="70" y2="290" stroke="#233047" stroke-width="1.5"/>
+        <line x1="330" y1="70" x2="370" y2="30" stroke="#233047" stroke-width="1.5"/>
+        <circle cx="190" cy="140" r="7" fill="#5fd4d0"/>
+        <circle cx="60" cy="60" r="5" fill="#8891a4"/>
+        <circle cx="330" cy="70" r="5" fill="#e8a548"/>
+        <circle cx="120" cy="240" r="5" fill="#6fcf97"/>
+        <circle cx="300" cy="230" r="5" fill="#8891a4"/>
+        <circle cx="340" cy="290" r="4" fill="#5fd4d0"/>
+        <circle cx="70" cy="290" r="4" fill="#8891a4"/>
+        <circle cx="370" cy="30" r="4" fill="#8891a4"/>
+      </svg>
+      <div class="hero-actions">
+        <a class="btn primary" href="mailto:contactalejandrobiz@gmail.com">Email me</a>
+        <a class="btn" href="https://linkedin.com/in/alearroyyoo" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn" href="https://github.com/cloudysfmoon" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap">
+    <p class="label">about</p>
+    <h2>Support background, infrastructure focus</h2>
+    <div class="about-grid" style="margin-top:32px;">
+      <div>
+        <p>I've spent the last several years in high-volume technical and customer support — <strong>resolving 100+ inbound tickets a day</strong> at Payzen and handling account-level troubleshooting at Credit One Bank — which means I'm comfortable staying calm under load, documenting things clearly, and working a queue.</p>
+        <p>I'm now finishing a <strong>B.S. in Cloud &amp; Network Engineering at Western Governors University</strong>, building toward CCNA and hands-on lab work with routing, switching, and firewall configuration. That support background is a real asset here — I already know how to work a help desk queue, I'm just moving toward being the person who fixes the network underneath it.</p>
+        <p>Longer term, I'm working toward pairing that infrastructure foundation with AI engineering in fintech — but the immediate goal is a network engineering seat where I can put the CLI to work.</p>
+      </div>
+      <div class="stat-panel">
+        <div class="stat"><span class="k">degree</span><span class="v">B.S. Cloud &amp; Network Eng.</span></div>
+        <div class="stat"><span class="k">school</span><span class="v">WGU</span></div>
+        <div class="stat"><span class="k">status</span><span class="v" style="color:var(--amber)">in progress</span></div>
+        <div class="stat"><span class="k">also holds</span><span class="v">B.A. Anthropology, CSUF '20</span></div>
+        <div class="stat"><span class="k">certs earned</span><span class="v">6</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <p class="label">skills</p>
+    <h2>Routing table</h2>
+    <p class="section-intro">What I actually work with day to day, grouped by domain.</p>
+    <table class="rtable">
+      <thead>
+        <tr><th>Domain</th><th>Stack</th><th>Status</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="domain">Networking &amp; Security</td>
+          <td class="stack">TCP/IP, DNS, DHCP, ACLs, NSGs, firewalls</td>
+          <td class="status core">core</td>
+        </tr>
+        <tr>
+          <td class="domain">Cloud &amp; Virtualization</td>
+          <td class="stack">Microsoft Azure, virtual networks, cloud storage, IaaS / PaaS / SaaS</td>
+          <td class="status core">core</td>
+        </tr>
+        <tr>
+          <td class="domain">Systems Administration</td>
+          <td class="stack">Windows 10/11, Active Directory, user &amp; group management, file permissions</td>
+          <td class="status core">core</td>
+        </tr>
+        <tr>
+          <td class="domain">Command Line</td>
+          <td class="stack">Windows &amp; Linux CLI, PC hardware &amp; peripherals</td>
+          <td class="status core">core</td>
+        </tr>
+        <tr>
+          <td class="domain">Support Tooling</td>
+          <td class="stack">Zendesk, Kustomer, osTicket, ClickUp, Front, Intercom, LogRocket</td>
+          <td class="status daily">daily use</td>
+        </tr>
+        <tr>
+          <td class="domain">Working Style</td>
+          <td class="stack">Analytical thinking, problem-solving, conflict resolution, cross-team collaboration</td>
+          <td class="status daily">applied daily</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="wrap">
+    <p class="label">experience</p>
+    <h2>Traceroute</h2>
+    <p class="section-intro">Work history, closest hop first.</p>
+    <ol class="hops">
+      <li class="hop">
+        <div class="hop-n"><span class="num">01</span>current</div>
+        <div>
+          <div class="hop-head">
+            <h3>Collections Specialist — Credit One Bank</h3>
+            <span class="duration">Jul 2025 – Jul 2026</span>
+          </div>
+          <p class="hop-loc">Las Vegas, NV</p>
+          <ul>
+            <li>Delivered solutions-based support to cardholders 5–30 days delinquent, in line with FDCPA guidelines.</li>
+            <li>Managed high-volume outbound calls, analyzing account status and recommending payment plans.</li>
+            <li>Resolved delinquency issues and built rapport through deep product knowledge and objection handling.</li>
+          </ul>
+        </div>
+      </li>
+      <li class="hop">
+        <div class="hop-n"><span class="num">02</span></div>
+        <div>
+          <div class="hop-head">
+            <h3>Customer Success Associate — Payzen</h3>
+            <span class="duration">Dec 2022 – Feb 2025</span>
+          </div>
+          <p class="hop-loc">Remote</p>
+          <ul>
+            <li>Resolved 100+ daily inbound patient inquiries across phone, SMS, email, and live chat.</li>
+            <li>Delivered support that earned a 90%+ CSAT score by building rapport and handling issues with care.</li>
+            <li>Maintained accurate interaction records and used historical data to improve response efficiency.</li>
+            <li>Collaborated with engineering, product, and provider teams to troubleshoot complex issues.</li>
+          </ul>
+        </div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section id="lab">
+  <div class="wrap">
+    <p class="label">lab</p>
+    <h2>The lab</h2>
+    <p class="section-intro">Hands-on network lab work from WGU's Network Analytics &amp; Troubleshooting coursework — a GNS3 lab environment running VyOS routers, OPNsense, and Windows Server, with six help desk tickets to diagnose and close out.</p>
+    <div class="lab-meta">
+      <b>environment:</b> GNS3 · VyOS · OPNsense · Windows Server 2016 · Packet Tracer &nbsp;·&nbsp;
+      <b>output:</b> six tickets closed, each documented in APA format
+    </div>
+    <div class="tickets">
+      <div class="ticket">
+        <div class="ticket-head"><span class="ticket-id">TKT-01</span><span class="ticket-status">closed</span></div>
+        <h3>Unauthorized FTP service on DMZ-Server2</h3>
+        <dl class="ticket-detail">
+          <div class="field"><dt>found</dt><dd>Service enumeration on the DMZ segment turned up an active vsftpd daemon on DMZ-Server2 — a host with no legitimate reason to expose file transfer to that zone.</dd></div>
+          <div class="field"><dt>fix</dt><dd>Disabled and removed the FTP service, then logged the finding as an unauthorized-service ticket.</dd></div>
+        </dl>
+        <div class="skill-tags"><span class="skill-tag">service enumeration</span><span class="skill-tag">DMZ hardening</span><span class="skill-tag">attack surface reduction</span></div>
+      </div>
+      <div class="ticket">
+        <div class="ticket-head"><span class="ticket-id">TKT-02</span><span class="ticket-status">closed</span></div>
+        <h3>DNS cache poisoning on a Windows Server 2016 DNS host</h3>
+        <dl class="ticket-detail">
+          <div class="field"><dt>found</dt><dd>A malicious wgu.edu zone had been injected into the DNS role — records that didn't match the expected baseline and could redirect legitimate traffic to an attacker-controlled host.</dd></div>
+          <div class="field"><dt>fix</dt><dd>Removed the poisoned zone records and tightened zone transfer settings to close the path the injection came through.</dd></div>
+        </dl>
+        <div class="skill-tags"><span class="skill-tag">DNS security</span><span class="skill-tag">zone transfer hardening</span><span class="skill-tag">Windows Server</span></div>
+      </div>
+      <div class="ticket">
+        <div class="ticket-head"><span class="ticket-id">TKT-03</span><span class="ticket-status">closed</span></div>
+        <h3>Routing loop on Router4</h3>
+        <dl class="ticket-detail">
+          <div class="field"><dt>found</dt><dd>Traffic to a downstream subnet was looping between routers and exhausting TTL instead of reaching its destination.</dd></div>
+          <div class="field"><dt>fix</dt><dd>Traced the path hop by hop, isolated the conflicting entry in Router4's routing table, and corrected it to restore a single stable path.</dd></div>
+        </dl>
+        <div class="skill-tags"><span class="skill-tag">routing table analysis</span><span class="skill-tag">troubleshooting methodology</span></div>
+      </div>
+      <div class="ticket">
+        <div class="ticket-head"><span class="ticket-id">TKT-04</span><span class="ticket-status">closed</span></div>
+        <h3>DHCP/DNS misconfiguration on Router1</h3>
+        <dl class="ticket-detail">
+          <div class="field"><dt>found</dt><dd>Clients on USER-Net (10.10.40.0/24) were failing to lease IP addresses and couldn't resolve hostnames.</dd></div>
+          <div class="field"><dt>fix</dt><dd>Corrected the DHCP pool boundaries and DNS forwarder settings on Router1, restoring address leasing and name resolution for the subnet.</dd></div>
+        </dl>
+        <div class="skill-tags"><span class="skill-tag">DHCP scope design</span><span class="skill-tag">DNS forwarding</span><span class="skill-tag">subnetting</span></div>
+      </div>
+      <div class="ticket">
+        <div class="ticket-head"><span class="ticket-id">TKT-05</span><span class="ticket-status">closed</span></div>
+        <h3>Overly broad OPNsense firewall rule</h3>
+        <dl class="ticket-detail">
+          <div class="field"><dt>found</dt><dd>A block rule was scoped too wide — it was silently dropping legitimate traffic along with the traffic it was meant to stop.</dd></div>
+          <div class="field"><dt>fix</dt><dd>Rescoped the rule to the intended subnet and service only, restoring legitimate traffic while keeping the original block in place.</dd></div>
+        </dl>
+        <div class="skill-tags"><span class="skill-tag">firewall rule design</span><span class="skill-tag">OPNsense</span><span class="skill-tag">least-privilege access</span></div>
+      </div>
+      <div class="ticket">
+        <div class="ticket-head"><span class="ticket-id">TKT-06</span><span class="ticket-status">closed</span></div>
+        <h3>Persistent netcat backdoor on DMZ-Server2</h3>
+        <dl class="ticket-detail">
+          <div class="field"><dt>found</dt><dd>Netcat listeners kept reappearing on DMZ-Server2 after reboot — a sign of deliberate persistence, not a one-off compromise.</dd></div>
+          <div class="field"><dt>fix</dt><dd>Traced it to systemd unit files re-launching the listeners on startup, removed the malicious units, closed the open ports, and documented the persistence mechanism.</dd></div>
+        </dl>
+        <div class="skill-tags"><span class="skill-tag">Linux systemd</span><span class="skill-tag">persistence analysis</span><span class="skill-tag">incident documentation</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="certs">
+  <div class="wrap">
+    <p class="label">certs</p>
+    <h2>Certification roadmap</h2>
+    <p class="section-intro">Earned certifications, what's actively in progress, and where the path goes from here.</p>
+    <div class="cert-cols">
+      <div class="cert-col">
+        <h3>earned</h3>
+        <ul class="badge-list">
+          <li class="badge earned"><span class="mark">✓</span><span class="name">CompTIA Network+</span></li>
+          <li class="badge earned"><span class="mark">✓</span><span class="name">CompTIA Security+</span></li>
+          <li class="badge earned"><span class="mark">✓</span><span class="name">CompTIA A+</span></li>
+          <li class="badge earned"><span class="mark">✓</span><span class="name">Microsoft 365 Fundamentals (MS-900)</span></li>
+          <li class="badge earned"><span class="mark">✓</span><span class="name">LPI Linux Essentials</span></li>
+          <li class="badge earned"><span class="mark">✓</span><span class="name">LPI Security Essentials</span></li>
+        </ul>
+      </div>
+      <div class="cert-col">
+        <h3>in progress</h3>
+        <ul class="badge-list">
+          <li class="badge progress"><span class="mark">●</span><span class="name">CCNA (200-301)<span class="sub">Cisco Certified Network Associate</span></span></li>
+        </ul>
+      </div>
+      <div class="cert-col">
+        <h3>roadmap</h3>
+        <ul class="badge-list">
+          <li class="badge planned"><span class="mark">○</span><span class="name">RHCSA → AZ-104 → CCNP<span class="sub">infrastructure track</span></span></li>
+          <li class="badge planned"><span class="mark">○</span><span class="name">AZ-700 → AZ-305<span class="sub">networking &amp; architecture</span></span></li>
+          <li class="badge planned"><span class="mark">○</span><span class="name">Python → applied ML → GenAI<span class="sub">long-term, fintech-focused</span></span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <p class="label">contact</p>
+    <h2>Get in touch</h2>
+    <p class="section-intro">Open to network engineering, IT infrastructure, and cloud support roles.</p>
+    <div class="contact-block">
+      <div class="line"><span class="k">email</span><span class="v"><a href="mailto:contactalejandrobiz@gmail.com">contactalejandrobiz@gmail.com</a></span></div>
+      <div class="line"><span class="k">github</span><span class="v"><a href="https://github.com/cloudysfmoon" target="_blank" rel="noopener">github.com/cloudysfmoon</a></span></div>
+      <div class="line"><span class="k">linkedin</span><span class="v"><a href="https://linkedin.com/in/alearroyyoo" target="_blank" rel="noopener">linkedin.com/in/alearroyyoo</a></span></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Jose A. Arroyo</span>
+    <span id="uptime">session uptime: 0:00:00</span>
+  </div>
+</footer>
+
+<script>
+  // mobile nav toggle
+  var toggle = document.getElementById('navToggle');
+  var nav = document.getElementById('navlinks');
+  toggle.addEventListener('click', function(){
+    var open = nav.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  nav.querySelectorAll('a').forEach(function(link){
+    link.addEventListener('click', function(){
+      nav.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  // active nav highlight on scroll
+  var sections = document.querySelectorAll('section[id]');
+  var navAnchors = nav.querySelectorAll('a');
+  if ('IntersectionObserver' in window){
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting){
+          navAnchors.forEach(function(a){ a.classList.remove('active'); });
+          var current = nav.querySelector('a[href="#' + entry.target.id + '"]');
+          if (current) current.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-40% 0px -55% 0px' });
+    sections.forEach(function(s){ obs.observe(s); });
+  }
+
+  // session uptime counter
+  var start = Date.now();
+  var uptimeEl = document.getElementById('uptime');
+  function pad(n){ return n < 10 ? '0' + n : '' + n; }
+  setInterval(function(){
+    var secs = Math.floor((Date.now() - start) / 1000);
+    var h = Math.floor(secs / 3600);
+    var m = Math.floor((secs % 3600) / 60);
+    var s = secs % 60;
+    uptimeEl.textContent = 'session uptime: ' + h + ':' + pad(m) + ':' + pad(s);
+  }, 1000);
+</script>
+
+</body>
+</html>
